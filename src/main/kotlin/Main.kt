@@ -1,3 +1,4 @@
+//java does not support top level functions but kotlin does
 fun main() {
     println("hello worlds")
     val read = "immutable"
@@ -123,6 +124,13 @@ fun main() {
         println(it)
     }
 
+    avg(2,5)
+    greet()
+    ok(message = "nah")
+    println(sumUs())
+    println(sumUs(1,2,3))
+    println(sumUs(3,4,4,4,4,4,4,4,4))
+    println(sumUs(*intArrayOf(1,2,3))) // type of array needs to be explicit => spread
 }
 
 fun max(a: Int, b: Int): Int{
@@ -132,4 +140,23 @@ fun max(a: Int, b: Int): Int{
         b
     }
     return res
+}
+
+fun avg(a:Int, b: Int):Int = (a+b)/2
+
+//multi line functions cannot infer the return types
+fun greet():Unit {
+   println("hello")
+}
+
+//named parameters
+fun ok(name: String = "none", message: String) = "hello $name $message"
+
+// vararg param is internally represented by an array
+fun sumUs(vararg nums: Int): Int {
+    var sum = 0
+    for (n in nums) {
+        sum += n
+    }
+    return sum
 }

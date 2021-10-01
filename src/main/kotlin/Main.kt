@@ -62,4 +62,74 @@ fun main() {
     map[1] = "ok"
     map.remove(2)
     map[3] = "new kv"
+
+    println(max(3,4))
+
+//    when -> can also be assigned to a variable just like if
+    val myArray = arrayOf<Any>(1, 2.0, "hello", true)
+    for (i in myArray){
+        when(i) {
+            is String -> println("$i is string")
+            is Int -> println("$i is int")
+            is Float -> println("$i is float")
+            !is Boolean -> println("$i is not a boolean")
+            else -> println("none matched")
+        }
+    }
+
+    val qualifiedNums = arrayOf(1,2,3)
+
+    for (i in nums) {
+        when(i) {
+            in 1..10 -> println("$i is between 1 to 10")
+            in qualifiedNums -> println("$i is qualified")
+            else -> println("idk")
+        }
+    }
+
+    for (i in nums.indices){
+        println(i)
+        println(nums[i])
+    }
+
+    for ((value,i) in nums.withIndex()){
+        println("$i -> $value")
+    }
+
+    val myIterator = nums.iterator()
+
+    var count = 0
+    while (myIterator.hasNext()){
+        count++
+        myIterator.next()
+    }
+    println("${nums.toList()} has $count elements")
+
+    Continue@ for (i in 1..100) {
+        for (j in 1..100) {
+            if (j == 50) {
+                println("$i and $j wins")
+                break@Continue // breaks out from both the loops
+//                break statements break out from the closest loop unless they hav a specific label
+            }
+        }
+    }
+
+    listOf<Int>(1,2,3,4,5).forEach lit@ {
+        if(it == 3){
+            println("returning")
+            return@lit
+        }
+        println(it)
+    }
+
+}
+
+fun max(a: Int, b: Int): Int{
+    val res = if (a > b){
+        a
+    }else{
+        b
+    }
+    return res
 }

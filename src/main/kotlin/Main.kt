@@ -131,7 +131,45 @@ fun main() {
     println(sumUs(1,2,3))
     println(sumUs(3,4,4,4,4,4,4,4,4))
     println(sumUs(*intArrayOf(1,2,3))) // type of array needs to be explicit => spread
+    println(sumMulti(3,4))
+    val (sumResponse, multiResponse) = sumMulti(4,5)
+    println("$sumResponse, $multiResponse")
+
+//    lambdas => anonymous, no fun keyword, no explicit return type (compile infers it itself)
+    val message = {
+        println("I am lambda")
+    }
+    message()
+    val lambdaSum = {
+        x: Int, y: Int -> x+y
+    }
+    println(lambdaSum(3,5))
+
+    val myList = listOf<String>("hello", "worlds", "kotlin", "jvm")
+    println(myList.last())
+    println(myList.last{s -> s.length == 5}) // last string whose length is 5
+    println(myList.last{it.length == 5}) // it is like the "this" keyword
+
+//    anonymous functions
+    myList.forEach(fun (n) {
+        if(n == "hello"){
+            println(n)
+        }
+    } )
+    myList.forEach {
+        if(it === "hello"){
+            println(it)
+        }
+    }
+
+    println("hello".customUpperCase())
+    println(1.ad(1,2))
+    println(2 sub 3) // infix
+    println(multiplyAfterAdd(1,2, ::addFunc))
+    println(factorial(5))
 }
+
+fun addFunc(a: Int, b: Int): Int = a + b
 
 fun max(a: Int, b: Int): Int{
     val res = if (a > b){
@@ -159,4 +197,31 @@ fun sumUs(vararg nums: Int): Int {
         sum += n
     }
     return sum
+}
+
+//no tuples but Pair and Triple (but not above that)
+fun sumMulti(a: Int, b: Int): Pair<Int, Int> {
+   return Pair(a+b, a*b)
+}
+
+fun String.customUpperCase(): String {
+    return this.uppercase()
+}
+
+fun Int.ad(a: Int, y: Int): Int = a + y + this
+
+infix fun Int.sub(x: Int): Int = x - this
+
+fun multiplyAfterAdd(a: Int, b: Int, addFunc: (Int, Int) -> Int): Int {
+    return addFunc(a, b)
+}
+
+// recursion => tail recursion => compiler can rewrite recursive function in an imperative manner
+fun factorial(num: Long, accum: Long = 1): Long {
+    val soFar = num * accum
+    return if (num <= 1) {
+        soFar
+    }else{
+        factorial(num-1, soFar)
+    }
 }

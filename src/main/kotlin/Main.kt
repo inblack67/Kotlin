@@ -1,5 +1,110 @@
+class Bob {}
+
+class Traditional {
+    var title: String
+//    secondary ctor
+    constructor(title: String){
+        this.title = title
+    }
+}
+// getters and setters are built in
+class Modern (title: String = "Kotlin"){
+
+}
+
+//no constructors
+//can extend other classes and interfaces
+//singleton => only one instance => multiple calls => same instance will be given
+object Constants {
+    val URL: String = "https://inblack67.vercel.app"
+    fun sayMyName() {
+        println("ok")
+    }
+}
+
+class Custom(var title: String) {
+    var length: Int = 0
+
+//        custom getters and setters
+    set(value){
+        if(value == 0){
+            throw IllegalArgumentException("Length must not b empty")
+        }
+        field = value // field & value are reserved keywords
+    }
+    get(){
+        return field.inc()
+    }
+}
+
+class Article(var title: String, var length: Int) {
+    var published: Boolean = true
+    var author: String = "John Doe"
+    constructor(title: String, length: Int, author: String, published: Boolean): this(title,length){
+        this.author = author
+        this.published = published
+    }
+}
+
+// Any type => every class will inherit from it => and it has 3 methods => toString, equals, hashCode
+
+class Visibility {
+    fun a() {
+        println("I am public")
+    }
+    private fun b(){
+//        can be accessed from within the same file it was declared in
+        println("I am private")
+    }
+    protected  fun c(){
+//        accessible in the class or any subclass of that class
+        println("I am protected")
+    }
+    internal fun d(){
+//        limits the scope to the module itself
+        println("I am internal")
+    }
+}
+
+//no static classes methods or properties
+class Person private constructor (name: String) {
+//    lazy => instantiated only when needed for the first time
+    companion object {
+        fun create(name: String): Person = Person(name)
+    }
+}
+
+class Peeps private constructor(var count: Int)  {
+//    this block runs whenever Peeps object gets created
+    init {
+        count++
+    }
+
+//    singleton => even though class Peeps can be instantiated as many times
+//    can't access class vars
+    companion object {
+        var count = 0
+        init {
+            //    this block runs whenever companion object gets created
+            println("created object")
+        }
+    }
+}
+
 //java does not support top level functions but kotlin does
 fun main() {
+
+    val person = Person.create("Some Name") // cant access the constructor as it is private
+
+    val article = Article(title = "kotlin Article", length = 10, author = "me", published = false)
+    println("${article.author} ${article.published} ${article.title} ${article.length}")
+
+    val custom = Custom(title = "hello")
+    custom.length = 50
+    println("custom length => ${custom.length}") // 51 => as getter was invoked right here
+
+    val bob = Bob()
+
     println("hello worlds")
     val read = "immutable"
     var write = "mutable"

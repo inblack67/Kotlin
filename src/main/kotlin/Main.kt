@@ -91,8 +91,109 @@ class Peeps private constructor(var count: Int)  {
     }
 }
 
+//class A {
+//    private var b: B? = null
+//    fun init0(b: B) {
+//        this.b = b
+//    }
+//}
+
+class A {
+//    must be mutable (var), no primitive type and no custom getter and setters
+    private lateinit var b: B // later initialized => so can avoid explicit null checks
+    fun init0(b: B) {
+        this.b = b
+    }
+}
+
+class B {
+    val String.customUpperCase: String
+        get() = this.uppercase()
+    val name: String = "jack".customUpperCase
+}
+
+data class User (
+    var name: String,
+    var email: String,
+    var password: String,
+)
+
+class OuterClass {
+
+    var name: String = "hello"
+
+//    nested class => just like static nested class in java => by default
+//    do not store ref to the outer class
+//    can be private => can be instantiated within the scope of the outer class
+   class InnerClass {
+       fun inner() {
+           println("I am inner")
+       }
+   }
+
+    inner class referencedInner {
+        fun anotherInner(){
+            val outer = this@OuterClass
+            println("I have ref to the outer class with the help of inner keyword ${outer.name}")
+        }
+    }
+}
+
+enum class Direction {
+    UP, DOWN, LEFT, RIGHT
+}
+
+enum class Direction2 (val code: String) {
+    UP(1), DOWN(2), LEFT(3), RIGHT(4)
+}
+
+
+//sealed classes => abstract which can't create objects
+sealed class Animal
+class Tiger: Animal()
+class Dog: Animal()
+open class Wolf: Animal()
+
+class Beast: Wolf()
+
+fun animalType(a: Animal) {
+    when(a){
+        is Tiger -> println("tiger")
+        is Dog -> println("dog")
+        is Beast -> println("beast")
+        else -> println("who are you?")
+    }
+}
+
+
 //java does not support top level functions but kotlin does
 fun main() {
+
+    val up: Direction = Direction.UP
+//    or
+    enumValueOf<Direction>("UP")
+    enumValues<Direction>()
+    Direction.values()
+
+    val downCode = Direction2.DOWN
+    println(downCode.code)
+
+    val inner = OuterClass.InnerClass()
+    inner.inner()
+
+    val user = User(name = "some name", email = "some@mail.com", password = "123")
+    user.component1() // first field => name
+    val (_, email, password) = user
+    println("$email and $password")
+    println("${user.name}, ${user.email}, ${user.password}")
+    println(user.toString())
+    println(user.hashCode()) // can be used in storing and retrieving via hashmaps
+    val userCopy = user.copy()
+    val userCopy2 = user.copy(name = "modified name")
+    println(userCopy.toString())
+
+    val b = B()
+    println(b.name)
 
     val person = Person.create("Some Name") // cant access the constructor as it is private
 
@@ -272,6 +373,11 @@ fun main() {
     println(2 sub 3) // infix
     println(multiplyAfterAdd(1,2, ::addFunc))
     println(factorial(5))
+
+    val name: String? = null
+    println(name?.length) // null or Int
+//    println(name!!.length) // bypass nullability check
+    val pureName = name ?: "Null Name" // if name is null, RHS is assigned to pureName var
 }
 
 fun addFunc(a: Int, b: Int): Int = a + b

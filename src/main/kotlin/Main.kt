@@ -143,7 +143,7 @@ enum class Direction {
     UP, DOWN, LEFT, RIGHT
 }
 
-enum class Direction2 (val code: String) {
+enum class Direction2 (val code: Int) {
     UP(1), DOWN(2), LEFT(3), RIGHT(4)
 }
 
@@ -165,10 +165,81 @@ fun animalType(a: Animal) {
     }
 }
 
+abstract class Company(val companyName: String){
+    abstract fun getEarnings(): Double
+    fun companyName(): String = "$companyName inc." // this method can be overridden via concrete/subclasses only if it has the "open" modifier
+}
+
+abstract class Keys {
+    val KEY_ONE = "KEY_ONE"
+}
+
+//class Employee(companyName: String) : Company(companyName) {
+//
+//}
+
+//interfaces => naturally abstract
+//do not maintain state
+//can have default implementations
+//property init not allowed
+interface IntA {
+    fun funA(a: Int): Boolean
+    fun funB(b: Int): Boolean {
+        return true
+    }
+}
+
+//class can implement as many interfaces as desired but it can only inherit one class
+class C : IntA {
+    override fun funA(a: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun funB(b: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+}
+
+//by default => classes and methods are final => can not be inherited
+
+open class A1 {
+    open fun a() {
+        println("hello")
+    }
+}
+
+class B1 : A1() {
+    override fun a() {
+        println("overidden hello")
+    }
+}
+
+open class Games(val name: String) {
+    open fun intro (): String = name
+}
+
+class Football(name: String): Games(name) {
+    override fun intro(): String {
+        return super.intro()
+    }
+}
+
+class Boxing : Games {
+    constructor(name: String) : super(name){
+
+    }
+}
+
+//type alias
+
+typealias Name = String // alias for these types
+typealias Age = Int
+
+data class NewPerson(val name: Name, val age: Age)
+
 
 //java does not support top level functions but kotlin does
 fun main() {
-
     val up: Direction = Direction.UP
 //    or
     enumValueOf<Direction>("UP")

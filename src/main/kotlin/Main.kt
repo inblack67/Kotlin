@@ -238,8 +238,41 @@ typealias Age = Int
 data class NewPerson(val name: Name, val age: Age)
 
 
+class MyStack<S>(vararg  items: S) {
+    private val elements = items.toMutableList()
+    fun push(element: S) = elements.add(element)
+    fun pop(): S = elements.removeAt(elements.size - 1)
+    fun peek(): S = elements.last()
+    fun isEmpty() = elements.isEmpty()
+    fun size() = elements.size
+    override fun toString(): String {
+        return "MyStack => ${elements.joinToString()}"
+    }
+}
+
+fun <S> mutableStackOf(vararg elements: S) = MyStack(*elements) // * => spreading
+
 //java does not support top level functions but kotlin does
 fun main() {
+
+    val stack1 = MyStack<Int>()
+    stack1.push(1)
+    stack1.push(2)
+    stack1.push(3)
+    stack1.push(4)
+    println(stack1.toString())
+
+
+    val stack2 = MyStack<Boolean>()
+    stack2.push(true)
+    stack2.push(false)
+    stack2.push(true)
+    stack2.push(false)
+    println(stack2.toString())
+
+    val stack3 = mutableStackOf<Int>(1,2,3)
+    println("stack3 => $stack3")
+
     val up: Direction = Direction.UP
 //    or
     enumValueOf<Direction>("UP")

@@ -265,11 +265,18 @@ class AM(val n: String): IGenre {
     }
 }
 
-//The classes MM also implement the interface, but not the method. Instead, it delegate the method call to the responsible implementation. The delegate object is defined after the by keyword
+//The classes MM also implement the interface, but not the method. Instead, it delegates the method call to the responsible implementation. The delegate object is defined after the by keyword
 class MM(val n: String): IGenre by AM(n)
 
 //java does not support top level functions but kotlin does
 fun main() {
+
+    val someName: String = "someName".let {
+        println("it => $it")
+        "$it HACKED"
+    }
+
+    println(someName)
 
     val mm = MM("Odds of even")
     mm.sing()

@@ -238,6 +238,8 @@ typealias Age = Int
 data class NewPerson(val name: Name, val age: Age)
 
 
+//generics
+
 class MyStack<S>(vararg  items: S) {
     private val elements = items.toMutableList()
     fun push(element: S) = elements.add(element)
@@ -252,8 +254,25 @@ class MyStack<S>(vararg  items: S) {
 
 fun <S> mutableStackOf(vararg elements: S) = MyStack(*elements) // * => spreading
 
+//delegation pattern
+interface IGenre {
+    fun sing()
+}
+
+class AM(val n: String): IGenre {
+    override fun sing() {
+        println("do i wanna know?")
+    }
+}
+
+//The classes MM also implement the interface, but not the method. Instead, it delegate the method call to the responsible implementation. The delegate object is defined after the by keyword
+class MM(val n: String): IGenre by AM(n)
+
 //java does not support top level functions but kotlin does
 fun main() {
+
+    val mm = MM("Odds of even")
+    mm.sing()
 
     val stack1 = MyStack<Int>()
     stack1.push(1)
